@@ -189,4 +189,4 @@ def storeSpots(cityName):
 # usage: change parameter to city's name corresponding to city name in db
 if __name__ == "__main__":
     cities = cityTable.scan()['Items']
-    storeSpots("Washington DC")
+    storeSpots("Vancouver") 

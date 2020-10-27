@@ -9,9 +9,9 @@ from boto3.dynamodb.conditions import Key, Attr
 rootUrl = "https://www.tripadvisor.ca"
 spotTable = boto3.resource('dynamodb').Table('spot')
 cityTable = boto3.resource('dynamodb').Table('city')
-bucketName = "junbang-a3-spot-images"
-bucket = s3 = boto3.resource('s3').Bucket(bucketName)
-rootObjectUrl = "" # your s3 url prefix like https://****.s3.amazonaws.com/
+bucketName = "ece1779-spot-images"
+bucket = boto3.resource('s3').Bucket(bucketName)
+rootObjectUrl = "https://ece1779-spot-images.s3.amazonaws.com/" # your s3 url prefix like https://****.s3.amazonaws.com/
 cityUrls = {
     "TorontoUrl":
     "https://www.tripadvisor.ca/Attractions-g155019-Activities-a_allAttractions.true-Toronto_Ontario.html",
@@ -58,9 +58,13 @@ def getCitySpotLinks(cityName):
     citySpotsList = cityContent.find_all(
         'div', class_="tracking_attraction_title listing_title")
     citySpotLinks = []
+    count = 0
     for citySpot in citySpotsList:
+        if count >= 15:
+            break
         spotLink = citySpot.find_all('a')[0]['href']
         citySpotLinks.append(spotLink)
+        count += 1
     return citySpotLinks
 
 """
@@ -153,6 +157,6 @@ def truncateImgBySpot(spotId):
 usage: change the parameter to city's name corresponding to city name in db
 """
 if __name__ == "__main__":
-    dldImageByCity("Washington DC")
-    uploadImageByCity("Washington DC")
-    # truncateImageLinks("Las Vegas")
+    dldImageByCity("Vancouver")
+    uploadImageByCity("Vancouver")
+    # truncateImageLinks("San Francisco")
